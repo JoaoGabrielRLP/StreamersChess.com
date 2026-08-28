@@ -1,0 +1,44 @@
+.error-state {
+  padding: 32px 0;
+  color: var(--muted);
+}
+
+.error-state > i {
+  color: var(--accent);
+  font-size: 1.8rem;
+}
+
+.error-state h2 {
+  margin: 12px 0 6px;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.error-state p {
+  margin: 0 0 18px;
+}
+
+.error-state button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--panel);
+  cursor: pointer;
+  font: inherit;
+}
+
+.error-state button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.error-state button:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}

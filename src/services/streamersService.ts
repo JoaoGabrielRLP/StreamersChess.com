@@ -38,7 +38,9 @@ function toStreamer(value: unknown): Streamer | null {
 
 function parseResponse(value: unknown): StreamersApiResponse {
   if (!isRecord(value) || !Array.isArray(value.streamers)) {
-    throw new Error('Resposta invalida da API de streamers.')
+    const error = new Error('Resposta invalida da API de streamers.')
+    error.name = 'StreamersApiError'
+    throw error
   }
 
   return {
@@ -52,7 +54,9 @@ export async function fetchStreamers(): Promise<Streamer[]> {
   const response = await fetch(STREAMERS_URL)
 
   if (!response.ok) {
-    throw new Error(`A API de streamers respondeu com HTTP ${response.status}.`)
+    const error = new Error(`A API de streamers respondeu com HTTP ${response.status}.`)
+    error.name = 'StreamersApiError'
+    throw error
   }
 
   return parseResponse(await response.json()).streamers

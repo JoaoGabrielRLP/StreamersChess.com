@@ -1,0 +1,22 @@
+.empty-state {
+  padding: 32px 0;
+  color: var(--muted);
+}
+
+.empty-state > i {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 1.8rem;
+}
+
+.empty-state h2 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.empty-state p {
+  margin: 0;
+}

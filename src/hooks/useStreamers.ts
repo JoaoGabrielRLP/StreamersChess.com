@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { fetchStreamers } from '../services/streamersService'
 import { filterStreamersByUsername, getInitialLiveStreamers } from '../utils/streamerFilters'
 import { sortStreamersByUsername } from '../utils/streamerSort'
@@ -10,7 +10,9 @@ export function useStreamers() {
   const [allStreamers, setAllStreamers] = useState<Streamer[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const searchTimeoutId = useRef<number | null>(null)
 
   const loadStreamers = useCallback(async (showLoading: boolean) => {
     if (showLoading) {
@@ -37,6 +39,9 @@ export function useStreamers() {
     return () => {
       window.clearTimeout(initialLoadId)
       window.clearInterval(intervalId)
+      if (searchTimeoutId.current !== null) {
+        window.clearTimeout(searchTimeoutId.current)
+      }
     }
   }, [loadStreamers])
 
@@ -44,11 +49,25 @@ export function useStreamers() {
     const normalizedTerm = term.trim()
     if (normalizedTerm) {
       setSearchTerm(normalizedTerm)
+      setIsSearching(true)
+      if (searchTimeoutId.current !== null) {
+        window.clearTimeout(searchTimeoutId.current)
+      }
+      searchTimeoutId.current = window.setTimeout(() => {
+        setIsSearching(false)
+        searchTimeoutId.current = null
+      }, 250)
       return true
     }
 
     return false
   }, [])
+
+  const reload = useCallback(async () => {
+    setSearchTerm('')
+    setIsSearching(false)
+    await loadStreamers(true)
+  }, [loadStreamers])
 
   const visibleStreamers = searchTerm
     ? filterStreamersByUsername(allStreamers, searchTerm)
@@ -57,9 +76,9 @@ export function useStreamers() {
   return {
     streamers: sortStreamersByUsername(visibleStreamers),
     searchTerm,
-    isLoading,
+    isLoading: isLoading || isSearching,
     error,
     search,
-    reload: () => loadStreamers(true),
+    reload,
   }
 }
