@@ -36,4 +36,14 @@ export default defineConfig([
   npm run lint
   npm run build
   ```
+
+  ## GitHub Pages
+
+  O deploy e realizado automaticamente pelo workflow `.github/workflows/deploy-pages.yml` a cada push na branch `main`.
+
+  No repositorio `JoaoGabrielRLP/StreamersChess.com`, ative `Settings > Pages > Build and deployment > Source: GitHub Actions`.
+
+  Depois da execucao bem-sucedida do workflow, a aplicacao fica disponivel em:
+
+  `https://joaogabrielrlp.github.io/StreamersChess.com/`
       },
