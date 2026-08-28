@@ -1,10 +1,12 @@
 import './App.css'
+import { Pagination } from './components/Pagination/Pagination'
 import { SearchBar } from './components/SearchBar/SearchBar'
+import { StreamerList } from './components/StreamerList/StreamerList'
 import { usePagination } from './hooks/usePagination'
 import { useStreamers } from './hooks/useStreamers'
 
 function App() {
-  const { streamers, search, isLoading, error } = useStreamers()
+  const { streamers, search, isLoading, error, reload } = useStreamers()
   const pagination = usePagination(streamers)
 
   return (
@@ -24,23 +26,15 @@ function App() {
         {error && <p role="alert">Não foi possível carregar os streamers.</p>}
         {!isLoading && !error && (
           <>
-            <ul className="streamers-list">
-              {pagination.items.map((streamer) => (
-                <li key={streamer.username}>
-                  <strong>{streamer.username}</strong>
-                  <span>{streamer.is_live ? 'Online' : 'Offline'}</span>
-                </li>
-              ))}
-            </ul>
-            <nav className="pagination" aria-label="Paginação de streamers">
-              <button type="button" onClick={pagination.previousPage} disabled={!pagination.hasPreviousPage}>
-                Anterior
-              </button>
-              <span>Página {pagination.currentPage} de {Math.max(pagination.totalPages, 1)}</span>
-              <button type="button" onClick={pagination.nextPage} disabled={!pagination.hasNextPage}>
-                Próximo
-              </button>
-            </nav>
+            <StreamerList streamers={pagination.items} onReload={reload} />
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              hasPreviousPage={pagination.hasPreviousPage}
+              hasNextPage={pagination.hasNextPage}
+              onPrevious={pagination.previousPage}
+              onNext={pagination.nextPage}
+            />
           </>
         )}
       </section>

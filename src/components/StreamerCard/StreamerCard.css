@@ -1,0 +1,60 @@
+.streamer-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+}
+
+.streamer-card__identity {
+  min-width: 0;
+}
+
+.streamer-card h2 {
+  overflow: hidden;
+  margin: 0 0 4px;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.streamer-card__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.streamer-card--live .streamer-card__status {
+  color: var(--live);
+  font-weight: 700;
+}
+
+.streamer-card__status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.streamer-card .platform-links {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 600px) {
+  .streamer-card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .streamer-card .platform-links {
+    grid-column: auto;
+  }
+}
